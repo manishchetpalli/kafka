@@ -22,3 +22,20 @@ kafka-topics.sh --list --command-config /data1/kafkacerts/admin.properties --boo
 
 # Delete Topics
 kafka-topics.sh --delete --topic DL_TEST --bootstrap-server hostname1:6667 --command-config /data1/kafkacerts/admin.properties
+
+#To check leader and follower zookeeper
+echo cons | nc <ip> <port> | grep Mode
+echo cons | nc 10.129.36.94 2181 | grep Mode
+echo cons | nc 10.129.36.95 2181 | grep Mode
+
+#Get offset for topic
+to convert ist to utc
+date -u -d "2025-01-15 00:00:00 IST" +"%Y-%m-%d %H:%M:%S"
+
+converted - 2025-01-14 18:30:00
+
+2025-01-14T18:30:00
+
+##convert time to epoch in kafka
+date -u -d "2025-01-14T18:30:00" +%s000 -> 1736879400000
+
