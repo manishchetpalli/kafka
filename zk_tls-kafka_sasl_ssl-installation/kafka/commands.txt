@@ -1,0 +1,24 @@
+#to create admin user
+/home/kafka/kafka_2.13-3.4.0/bin/kafka-configs.sh --zk-tls-config-file /home/kafka/certs/zk_tls_config.properties --zookeeper hostname:12182 --alter --add-config 'SCRAM-SHA-512=[password='password']' --entity-type users --entity-name admin
+
+#ZKCLi login
+bin/zkCli.sh -server hostname1:12182
+
+
+# Create Admin User
+kafka-configs.sh --zookeeper hostname1:12182 --alter --add-config 'SCRAM-SHA-512=[password="password"]' --entity-type users --entity-name admin
+
+# Grant Producer Rights
+kafka-acls.sh --authorizer-properties zookeeper.connect=hostname1:12182 --add --allow-principal User:dlkdeveloper --producer --topic TEST --resource-pattern-type prefixed
+
+# Grant Consumer Rights
+kafka-acls.sh --authorizer-properties zookeeper.connect=hostname1:12182 --add --allow-principal User:$1 --consumer --group $1 --topic $2 --resource-pattern-type prefixed
+
+# List ACLs
+kafka-acls.sh --list --authorizer-properties zookeeper.connect=hostname1:12182
+
+# List Topics
+kafka-topics.sh --list --command-config /data1/kafkacerts/admin.properties --bootstrap-server hostname2:6667
+
+# Delete Topics
+kafka-topics.sh --delete --topic DL_TEST --bootstrap-server hostname1:6667 --command-config /data1/kafkacerts/admin.properties
